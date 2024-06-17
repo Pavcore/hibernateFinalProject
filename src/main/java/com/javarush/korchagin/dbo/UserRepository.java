@@ -9,9 +9,12 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Stream;
 
+//todo доделать метод find
+
 public class UserRepository implements Repository<User, Long> {
     private final AtomicLong userCount = new AtomicLong();
     private final Map<Long, Optional<User>> userMap = new HashMap<>();
+
     @Override
     public void create(User user) {
         Optional<User> optionalUser = Optional.ofNullable(user);
@@ -27,10 +30,12 @@ public class UserRepository implements Repository<User, Long> {
     public Optional<User> get(Long id) {
         return userMap.get(id);
     }
+
     @Override
     public List<Optional<User>> getAll() {
         return userMap.values().stream().toList();
     }
+
     @Override
     public Optional<User> update(Long id, User user) {
         Optional<User> optionalUser = userMap.get(id);
@@ -41,6 +46,7 @@ public class UserRepository implements Repository<User, Long> {
         }
         return optionalUser;
     }
+
     @Override
     public boolean delete(Long id) {
         if (userMap.containsKey(id)) {

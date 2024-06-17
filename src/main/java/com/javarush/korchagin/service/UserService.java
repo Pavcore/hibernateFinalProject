@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+//todo удалить сервис после успешного тестирования бд
+
 public class UserService {
     private final UserRepository userRepository;
 

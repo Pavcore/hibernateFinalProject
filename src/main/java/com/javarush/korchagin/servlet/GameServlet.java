@@ -10,6 +10,8 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
+//todo написать сервис для уменьшения нагрузки на данный сервлет
+
 @WebServlet("/game")
 public class GameServlet extends HttpServlet {
     private int level = 0;

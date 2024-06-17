@@ -6,6 +6,8 @@ import lombok.Getter;
 
 import java.util.concurrent.atomic.AtomicLong;
 
+//todo удалить данный сервис после добавления LoginService
+
 public class UserDataService {
     private static UserDataService userDataService;
     @Getter

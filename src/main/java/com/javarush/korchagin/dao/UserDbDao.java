@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+//todo доделать методы для работы с бд
+
 public class UserDbDao implements Repository<User, Long> {
 
     @Override

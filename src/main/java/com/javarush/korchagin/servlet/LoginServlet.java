@@ -11,6 +11,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
+//todo написать LoginService для авторизации, и добавить в него регистрацию
+
 @WebServlet("/")
 public class LoginServlet extends HttpServlet {
     @Override

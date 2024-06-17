@@ -12,6 +12,8 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
+//todo добавить заполнение liquiBase сюда
+
 @WebServlet("/home")
 public class HomeServlet extends HttpServlet {
 

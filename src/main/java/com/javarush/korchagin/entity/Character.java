@@ -1,7 +1,12 @@
 package com.javarush.korchagin.entity;
 
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Entity;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+//todo сделать класс entity
 
 @Entity
 @Builder

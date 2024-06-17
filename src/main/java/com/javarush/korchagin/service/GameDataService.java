@@ -7,6 +7,8 @@ import lombok.Getter;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
+//todo переписать сервис, чтобы он выводил только игровую статистику и не отвечал за создание персонажа
+
 public class GameDataService {
 
     private static GameDataService gameData;

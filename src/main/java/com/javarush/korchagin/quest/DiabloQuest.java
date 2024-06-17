@@ -5,6 +5,8 @@ import lombok.Getter;
 import java.util.ArrayList;
 import java.util.List;
 
+//todo удалить этот класс после успешного тестирования сервисов работы с бд, также удалить пакет
+
 @Getter
 public class DiabloQuest {
     private final List<String> introductionQuest = new ArrayList<>
