@@ -9,8 +9,6 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Stream;
 
-//todo доделать метод find, update and delete
-
 public class CharacterRepository implements Repository<Character, Long> {
     private final AtomicLong atomicLong = new AtomicLong();
     private final Map<Long, Optional<Character>> characterMap = new HashMap<>();
@@ -25,6 +23,10 @@ public class CharacterRepository implements Repository<Character, Long> {
 
     @Override
     public Stream<Character> find(Character pattern) {
+        if (characterMap.containsValue(Optional.ofNullable(pattern))) {
+            assert pattern != null;
+            return characterMap.get(pattern.getId()).stream();
+        }
         return Stream.empty();
     }
 
@@ -38,13 +40,22 @@ public class CharacterRepository implements Repository<Character, Long> {
 
 
     @Override
-    public Optional<Character> update(Long aLong, Character character) {
-        return Optional.empty();
+    public Optional<Character> update(Long id, Character character) {
+        Optional<Character> optionalCharacter = characterMap.get(id);
+        if (optionalCharacter.isPresent()) {
+            optionalCharacter.get().setId(character.getId());
+            optionalCharacter.get().setCharacterClass(character.getCharacterClass());
+        }
+        return optionalCharacter;
     }
 
 
     @Override
-    public boolean delete(Long aLong) {
+    public boolean delete(Long id) {
+        if (characterMap.containsKey(id)) {
+            characterMap.remove(id);
+            return true;
+        }
         return false;
     }
 }

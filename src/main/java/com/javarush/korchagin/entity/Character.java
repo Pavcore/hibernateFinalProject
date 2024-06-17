@@ -1,26 +1,31 @@
 package com.javarush.korchagin.entity;
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-//todo сделать класс entity
 
 @Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Table(name = "character")
 public class Character {
 
+    @Column(name = "id")
     private Long id;
 
+    @Column(name = "name")
     private String name;
 
+    @Column(name = "character_class")
+    @Enumerated(value = EnumType.STRING)
     private CharacterClass characterClass;
 
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
 
     @Override

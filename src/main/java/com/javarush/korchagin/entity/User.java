@@ -1,6 +1,6 @@
 package com.javarush.korchagin.entity;
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,21 +8,25 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-//todo сделать класс entity
-
 @Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Table(name = "users")
 public class User {
 
+    @Column(name = "id")
     private Long id;
 
+    @Column(name = "login")
     private String login;
 
+    @Column(name = "password")
     private String password;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "character_id")
     private List<Character> characters;
 
     @Override

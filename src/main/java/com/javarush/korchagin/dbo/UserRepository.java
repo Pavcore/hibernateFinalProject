@@ -9,8 +9,6 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Stream;
 
-//todo доделать метод find
-
 public class UserRepository implements Repository<User, Long> {
     private final AtomicLong userCount = new AtomicLong();
     private final Map<Long, Optional<User>> userMap = new HashMap<>();
@@ -23,6 +21,10 @@ public class UserRepository implements Repository<User, Long> {
 
     @Override
     public Stream<User> find(User pattern) {
+        if (userMap.containsValue(Optional.ofNullable(pattern))) {
+            assert pattern != null;
+            return userMap.get(pattern.getId()).stream();
+        }
         return Stream.empty();
     }
 
