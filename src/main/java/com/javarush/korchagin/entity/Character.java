@@ -33,6 +33,6 @@ public class Character {
 
     @Override
     public String toString() {
-        return String.format("Имя персонажа - %s, класс персонажа - %s", name, characterClass);
+        return String.format("Имя - %s, класс - %s", name, characterClass);
     }
 }
