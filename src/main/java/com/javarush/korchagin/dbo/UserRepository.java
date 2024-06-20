@@ -1,60 +1,63 @@
 package com.javarush.korchagin.dbo;
 
+import com.javarush.korchagin.config.SessionCreator;
 import com.javarush.korchagin.entity.User;
+import org.hibernate.query.criteria.JpaRoot;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Stream;
 
-public class UserRepository implements Repository<User, Long> {
-    private final AtomicLong userCount = new AtomicLong();
-    private final Map<Long, Optional<User>> userMap = new HashMap<>();
+public class UserRepository implements Repository<User> {
+    private final SessionCreator sessionCreator = new SessionCreator();
 
     @Override
     public void create(User user) {
-        Optional<User> optionalUser = Optional.ofNullable(user);
-        userMap.put(userCount.getAndIncrement(), optionalUser);
+        sessionCreator.beginTransactional();
+        sessionCreator.getSession().persist(user);
+        sessionCreator.endTransactional();
     }
 
     @Override
     public Stream<User> find(User pattern) {
-        if (userMap.containsValue(Optional.ofNullable(pattern))) {
-            assert pattern != null;
-            return userMap.get(pattern.getId()).stream();
-        }
-        return Stream.empty();
+        sessionCreator.beginTransactional();
+        var criteriaBuilder = sessionCreator.getSession().getCriteriaBuilder();
+        var criteriaQuery = criteriaBuilder.createQuery(User.class);
+        JpaRoot<User> from = criteriaQuery.from(User.class);
+        criteriaQuery.select(from);
+        criteriaQuery.where(criteriaBuilder.equal(from.get("login"), pattern.getLogin()));
+        Stream<User> userStream = sessionCreator.getSession().createQuery(criteriaQuery).list().stream();
+        sessionCreator.endTransactional();
+        return userStream;
     }
 
     @Override
-    public Optional<User> get(Long id) {
-        return userMap.get(id);
+    public User get(long id) {
+        sessionCreator.beginTransactional();
+        User getUser = sessionCreator.getSession().find(User.class, id);
+        sessionCreator.endTransactional();
+        return getUser;
     }
 
     @Override
-    public List<Optional<User>> getAll() {
-        return userMap.values().stream().toList();
+    public List<User> getAll() {
+        String sql = "select * from users";
+        sessionCreator.beginTransactional();
+        List<User> getAllUser = sessionCreator.getSession().createNativeQuery(sql, User.class).stream().toList();
+        sessionCreator.endTransactional();
+        return getAllUser;
     }
 
     @Override
-    public Optional<User> update(Long id, User user) {
-        Optional<User> optionalUser = userMap.get(id);
-        if (optionalUser.isPresent()) {
-            optionalUser.get().setId(user.getId());
-            optionalUser.get().setLogin(user.getLogin());
-            optionalUser.get().setPassword(user.getPassword());
-        }
-        return optionalUser;
+    public void update(User user) {
+        sessionCreator.beginTransactional();
+        sessionCreator.getSession().merge(user);
+        sessionCreator.endTransactional();
     }
 
     @Override
-    public boolean delete(Long id) {
-        if (userMap.containsKey(id)) {
-            userMap.remove(id);
-            return true;
-        }
-        return false;
+    public void delete(User user) {
+        sessionCreator.beginTransactional();
+        sessionCreator.getSession().remove(user);
+        sessionCreator.endTransactional();
     }
 }

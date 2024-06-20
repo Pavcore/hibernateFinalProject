@@ -4,10 +4,8 @@ import liquibase.Scope;
 import liquibase.command.CommandScope;
 import liquibase.resource.ClassLoaderResourceAccessor;
 
-//todo переделать мэйн, чтобы его можно было запускать в сервлете
-
 public class LiquiBaseInit {
-    public static void main(String[] args) throws Exception {
+    public void start() throws Exception {
         System.out.println("Running Liquibase...");
 
         Scope.child(Scope.Attr.resourceAccessor, new ClassLoaderResourceAccessor(), () -> {

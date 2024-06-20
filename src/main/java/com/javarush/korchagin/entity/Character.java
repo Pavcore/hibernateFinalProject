@@ -14,7 +14,8 @@ import lombok.NoArgsConstructor;
 @Table(name = "character")
 public class Character {
 
-    @Column(name = "id")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "name")
@@ -30,8 +31,7 @@ public class Character {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof Character) {
-            Character equalsCharacter = (Character) obj;
+        if (obj instanceof Character equalsCharacter) {
             return this.name.equals(equalsCharacter.name) && this.characterClass.equals(equalsCharacter.characterClass);
         } else return false;
     }

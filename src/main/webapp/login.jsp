@@ -3,14 +3,18 @@
 
 <html>
 <head>
-    <title>Authorization</title>
+    <title>Login</title>
 </head>
 <body>
-<form action="${pageContext.request.contextPath}/" method="post">
+<form action="${pageContext.request.contextPath}/login" method="post">
     <h2>
-        Enter login : <input name="login">
+        Enter login : <label>
+        <input name="login">
+    </label>
         <br><br>
-        Enter password : <input name="password">
+        Enter password : <label>
+        <input name="password">
+    </label>
         <br><br>
         <input type="submit" value="Авторизоваться">
     </h2>

@@ -10,24 +10,23 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-@WebServlet("/login")
-public class LoginServlet extends HttpServlet {
+@WebServlet("/")
+public class RegistrationServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getSession(true).getServletContext().getRequestDispatcher("/login.jsp").forward(req, resp);
+        req.getSession(true).getServletContext().getRequestDispatcher("/registration.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession();
+        HttpSession session = req.getSession(true);
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         LoginService loginService = new LoginService();
-        if (loginService.login(login, password)) {
-            session.setAttribute("login", login);
-            resp.sendRedirect("/home");
+        if (loginService.register(login, password)) {
+            resp.sendRedirect("/login");
         } else {
-            String incorrectData = "incorrect login or password";
+            String incorrectData = "this login is busy";
             session.setAttribute("incorrectData", incorrectData);
             session.getServletContext().getRequestDispatcher("/no_login.jsp").forward(req, resp);
         }

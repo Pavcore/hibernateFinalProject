@@ -1,6 +1,6 @@
 package com.javarush.korchagin.servlet;
 
-import com.javarush.korchagin.quest.DiabloQuest;
+import com.javarush.korchagin.service.QuestService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -10,11 +10,9 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-//todo написать сервис для уменьшения нагрузки на данный сервлет
-
 @WebServlet("/game")
 public class GameServlet extends HttpServlet {
-    private int level = 0;
+    private int level = 1;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -23,24 +21,17 @@ public class GameServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        QuestService questService = new QuestService();
         HttpSession session = req.getSession(true);
-        DiabloQuest diabloQuest = new DiabloQuest();
-        String loseAttribute = "loseAttribute";
         String nextStage = req.getParameter("nextStage");
-        if (nextStage != null && nextStage.equals("DiabloQuest/lose")) {
-            session.setAttribute(loseAttribute, diabloQuest.getLoseQuest().get(level - 1));
-            level = 0;
+        if (nextStage != null && nextStage.equals("lose")) {
+            level = 1;
             session.getServletContext().getRequestDispatcher("/gameOver.jsp").forward(req, resp);
-        } else if (level == diabloQuest.getIntroductionQuest().size()) {
-            level = 0;
+        } else if (level == 7) {
+            level = 1;
             session.getServletContext().getRequestDispatcher("/gameWin.jsp").forward(req, resp);
         }
-        String stage = "stage";
-        String firstAnswer = "firstAnswer";
-        String secondAnswer = "secondAnswer";
-        session.setAttribute(stage, diabloQuest.getIntroductionQuest().get(level));
-        session.setAttribute(firstAnswer, diabloQuest.getPositiveAnswer().get(level));
-        session.setAttribute(secondAnswer, diabloQuest.getNegativeAnswer().get(level));
+        questService.setAttributeQuest(session, level);
         resp.sendRedirect("/game.jsp");
         level++;
     }

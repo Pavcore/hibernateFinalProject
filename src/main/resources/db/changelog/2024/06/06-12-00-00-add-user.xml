@@ -15,8 +15,6 @@
             <column name="password" type="varchar(64)">
                 <constraints nullable="false"/>
             </column>
-            <column name="character_id" type="bigint">
-            </column>
         </createTable>
     </changeSet>
     <changeSet id="13-23-10-add-user-fk" author="pkorchagin">

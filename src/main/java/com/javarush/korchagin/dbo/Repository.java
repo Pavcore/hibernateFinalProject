@@ -1,19 +1,18 @@
 package com.javarush.korchagin.dbo;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.Collection;
 import java.util.stream.Stream;
 
-public interface Repository<T, ID> {
-    public void create(T t);
+public interface Repository<T> {
+    void create(T t);
 
-    public Stream<T> find(T pattern);
+    Stream<T> find(T pattern);
 
-    public Optional<T> get(ID id);
+    T get(long id);
 
-    public List<Optional<T>> getAll();
+    Collection<T> getAll();
 
-    public Optional<T> update(ID id, T t);
+    void update(T t);
 
-    public boolean delete(ID id);
+    void delete(T t);
 }

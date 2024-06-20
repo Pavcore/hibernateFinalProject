@@ -1,12 +1,13 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <html>
 <head>
     <title>No login</title>
 </head>
 <body>
 <h2>
+    ${incorrectData}
     <form action="${pageContext.request.contextPath}/" method="get">
-            Неверный логин или пароль.
             <br>
             <input type="submit" value="Попробовать снова">
     </form>
