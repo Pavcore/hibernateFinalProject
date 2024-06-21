@@ -39,7 +39,13 @@
             <option>Druid</option>
             <option>Assassin</option>
         </select>
-        <br><br>
+        <br>
+        <input type="submit" value="Играть">
+    </form>
+    <br>
+    <form action="${pageContext.request.contextPath}/home" method="post">
+        Если вы хотите поиграть за ранее созданного персонажа, введите его имя : <input name="createCharacter"/>
+        <br>
         <input type="submit" value="Играть">
     </form>
 </h2>

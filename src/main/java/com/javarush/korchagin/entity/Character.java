@@ -25,7 +25,7 @@ public class Character {
     @Enumerated(value = EnumType.STRING)
     private CharacterClass characterClass;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
 

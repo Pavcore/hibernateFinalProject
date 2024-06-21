@@ -14,12 +14,11 @@ public class QuestService {
         sessionCreator.endTransactional();
         return quest;
     }
-    public HttpSession setAttributeQuest(HttpSession session, int level) {
+    public void setAttributeQuest(HttpSession session, int level) {
         Quest quest = get(level);
         session.setAttribute("stage", quest.getMainText());
         session.setAttribute("firstAnswer", quest.getCorrectAnswer());
         session.setAttribute("secondAnswer", quest.getWrongAnswer());
         session.setAttribute("loseAttribute", quest.getLooseText());
-        return session;
     }
 }

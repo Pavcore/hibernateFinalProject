@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-@WebServlet("/")
+@WebServlet("/registration")
 public class RegistrationServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -24,11 +24,12 @@ public class RegistrationServlet extends HttpServlet {
         String password = req.getParameter("password");
         LoginService loginService = new LoginService();
         if (loginService.register(login, password)) {
-            resp.sendRedirect("/login");
+            resp.sendRedirect("/");
         } else {
             String incorrectData = "this login is busy";
             session.setAttribute("incorrectData", incorrectData);
-            session.getServletContext().getRequestDispatcher("/no_login.jsp").forward(req, resp);
+            session.setAttribute("jspPath", "/registration.jsp");
+            session.getServletContext().getRequestDispatcher("/data_error.jsp").forward(req, resp);
         }
     }
 }

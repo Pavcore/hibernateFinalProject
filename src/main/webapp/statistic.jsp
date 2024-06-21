@@ -1,6 +1,9 @@
 <%@page import="com.javarush.korchagin.service.GameService" %>
 <%@page import="com.javarush.korchagin.dbo.CharacterRepository" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
+
+<%--исправить ошибку вывода персонажа путем добавления метода в CharacterService--%>
+
 <html>
 <head>
     <title>Stat</title>

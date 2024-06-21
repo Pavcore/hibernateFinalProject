@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-@WebServlet("/login")
+@WebServlet("/")
 public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -29,7 +29,8 @@ public class LoginServlet extends HttpServlet {
         } else {
             String incorrectData = "incorrect login or password";
             session.setAttribute("incorrectData", incorrectData);
-            session.getServletContext().getRequestDispatcher("/no_login.jsp").forward(req, resp);
+            session.setAttribute("jspPath", "/login.jsp");
+            session.getServletContext().getRequestDispatcher("/data_error.jsp").forward(req, resp);
         }
     }
 }

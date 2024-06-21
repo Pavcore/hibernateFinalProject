@@ -7,7 +7,7 @@
 <body>
 <h2>
     ${incorrectData}
-    <form action="${pageContext.request.contextPath}/" method="get">
+    <form action="${jspPath}" method="get">
             <br>
             <input type="submit" value="Попробовать снова">
     </form>

@@ -6,7 +6,7 @@
     <title>Login</title>
 </head>
 <body>
-<form action="${pageContext.request.contextPath}/login" method="post">
+<form action="${pageContext.request.contextPath}/" method="post">
     <h2>
         Enter login : <label>
         <input name="login">
@@ -18,6 +18,9 @@
         <br><br>
         <input type="submit" value="Авторизоваться">
     </h2>
+</form>
+<form action="registration.jsp" method="post">
+    <input type="submit" value="Зарегистрироваться">
 </form>
 </body>
 </html>
