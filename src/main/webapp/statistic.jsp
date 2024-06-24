@@ -1,8 +1,4 @@
-<%@page import="com.javarush.korchagin.service.GameService" %>
-<%@page import="com.javarush.korchagin.dbo.CharacterRepository" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
-
-<%--исправить ошибку вывода персонажа путем добавления метода в CharacterService--%>
 
 <html>
 <head>
@@ -10,10 +6,10 @@
 </head>
 <body>
 <h3>
-    Количество игр : ${GameService.getInstance().gameQuantity()}
+    Количество игр : ${gameQuantity}
 </h3>
 <h3>
-    Список персонажей : ${CharacterRepository.getAll()}
+    Список персонажей : ${characterList}
 </h3>
 <form action="${pageContext.request.contextPath}/gameWin.jsp" method="get">
     <input type="submit" value="Вернуться назад">

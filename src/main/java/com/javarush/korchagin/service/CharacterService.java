@@ -2,24 +2,22 @@ package com.javarush.korchagin.service;
 
 import com.javarush.korchagin.dbo.CharacterRepository;
 import com.javarush.korchagin.dbo.UserRepository;
+import com.javarush.korchagin.dto.CharacterClass;
 import com.javarush.korchagin.entity.Character;
-import com.javarush.korchagin.entity.CharacterClass;
 import com.javarush.korchagin.entity.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 import java.util.stream.Stream;
 
-//todo добавить метод для выборки персонажей определенного пользователя
-
 public class CharacterService {
     private final CharacterRepository characterRepository = new CharacterRepository();
+    private final UserRepository userRepository = new UserRepository();
+    private final UserService userService = new UserService();
 
     public boolean save(HttpServletRequest req, HttpSession session) {
-        UserRepository userRepository = new UserRepository();
-        UserService userService = new UserService();
         String login = (String) session.getAttribute("login");
-        User currentUser = userService.findUserByUsername(login);
+        User currentUser = userService.findUserByLogin(login);
         String classOfCharacter = req.getParameter("characterClass");
         String nameOfCharacter = req.getParameter("characterName");
         Character character = Character.builder()
@@ -47,10 +45,9 @@ public class CharacterService {
     }
 
     public boolean haveCharacterCreated(HttpServletRequest req, HttpSession session) {
-        UserService userService = new UserService();
         Character character = findByName(req.getParameter("createCharacter"));
-        User user = userService.findUserByUsername(session.getAttribute("login").toString());
-        if (user.getCharacters().contains(character) && character!=null) {
+        User user = userService.findUserByLogin(session.getAttribute("login").toString());
+        if (user.getCharacters().contains(character) && character != null) {
             GameService gameData = GameService.getInstance();
             gameData.increaseGameAmount();
             return true;

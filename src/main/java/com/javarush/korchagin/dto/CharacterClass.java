@@ -1,4 +1,4 @@
-package com.javarush.korchagin.entity;
+package com.javarush.korchagin.dto;
 
 public enum CharacterClass {
     BARBARIAN,

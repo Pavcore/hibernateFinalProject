@@ -1,5 +1,6 @@
 package com.javarush.korchagin.entity;
 
+import com.javarush.korchagin.dto.CharacterClass;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

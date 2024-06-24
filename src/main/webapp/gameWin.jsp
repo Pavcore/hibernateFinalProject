@@ -12,7 +12,7 @@
     <form action="${pageContext.request.contextPath}/home.jsp" method="get">
         <input type="submit" value="Начать сначала">
     </form>
-    <form action="${pageContext.request.contextPath}/statistic.jsp" method="get">
+    <form action="${pageContext.request.contextPath}/statistic" method="post">
         <input type="submit" value="Посмотреть статистику">
     </form>
 </h2>
