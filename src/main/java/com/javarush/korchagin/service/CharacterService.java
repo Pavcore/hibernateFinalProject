@@ -8,16 +8,18 @@ import com.javarush.korchagin.entity.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 public class CharacterService {
     private final CharacterRepository characterRepository = new CharacterRepository();
     private final UserRepository userRepository = new UserRepository();
-    private final UserService userService = new UserService();
 
     public boolean save(HttpServletRequest req, HttpSession session) {
         String login = (String) session.getAttribute("login");
-        User currentUser = userService.findUserByLogin(login);
+        User currentUser = userRepository.find(User.builder()
+                        .login(login)
+                        .build()).findFirst().orElse(null);
         String classOfCharacter = req.getParameter("characterClass");
         String nameOfCharacter = req.getParameter("characterName");
         Character character = Character.builder()
@@ -26,10 +28,7 @@ public class CharacterService {
                 .user(currentUser)
                 .build();
         if (findByName(character.getName()) == null) {
-            currentUser.getCharacters().add(character);
-            userRepository.update(currentUser);
-            GameService gameData = GameService.getInstance();
-            gameData.increaseGameAmount();
+            characterRepository.create(character);
             return true;
         } else {
             String incorrectData = "this name is already taken";
@@ -40,16 +39,20 @@ public class CharacterService {
     }
 
     private Character findByName(String name) {
-        Stream<Character> characterStream = characterRepository.find(Character.builder().name(name).build());
+        Stream<Character> characterStream = characterRepository.find(Character.builder()
+                .name(name)
+                .build());
         return characterStream.findFirst().orElse(null);
     }
 
     public boolean haveCharacterCreated(HttpServletRequest req, HttpSession session) {
         Character character = findByName(req.getParameter("createCharacter"));
-        User user = userService.findUserByLogin(session.getAttribute("login").toString());
-        if (user.getCharacters().contains(character) && character != null) {
-            GameService gameData = GameService.getInstance();
-            gameData.increaseGameAmount();
+        String login = session.getAttribute("login").toString();
+        User user = userRepository.find(User.builder()
+                        .login(login)
+                        .build()).findFirst().orElse(null);
+        List<Character> characterList = characterRepository.getAllCurrentUserCharacters(user != null ? user.getId() : null);
+        if (characterList.contains(character)) {
             return true;
         } else {
             String incorrectData = "you didn't create this character";

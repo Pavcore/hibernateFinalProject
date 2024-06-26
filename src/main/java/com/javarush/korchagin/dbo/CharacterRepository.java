@@ -3,6 +3,7 @@ package com.javarush.korchagin.dbo;
 import com.javarush.korchagin.config.SessionCreator;
 import com.javarush.korchagin.entity.Character;
 import org.hibernate.Session;
+import org.hibernate.query.NativeQuery;
 import org.hibernate.query.criteria.JpaRoot;
 
 import java.util.List;
@@ -39,6 +40,13 @@ public class CharacterRepository implements Repository<Character> {
     public List<Character> getAll() {
         String sql = "select * from character";
         return sessionCreator.getSession().createNativeQuery(sql, Character.class).stream().toList();
+    }
+
+    public List<Character> getAllCurrentUserCharacters(Long id){
+        String sql = "select * from character where user_id = :id";
+        NativeQuery<Character> query = sessionCreator.getSession().createNativeQuery(sql, Character.class);
+        query.setParameter("id", id);
+        return query.stream().toList();
     }
 
     @Override
