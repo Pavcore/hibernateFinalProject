@@ -2,11 +2,13 @@ package com.javarush.korchagin.service;
 
 import com.javarush.korchagin.dbo.UserRepository;
 import com.javarush.korchagin.entity.User;
+import lombok.AllArgsConstructor;
 
 import java.util.List;
 
+@AllArgsConstructor
 public class LoginService {
-    private final UserRepository userRepository = new UserRepository();
+    private final UserRepository userRepository;
 
     public boolean login(String login, String password) {
         User user = User.builder().login(login).password(password).build();

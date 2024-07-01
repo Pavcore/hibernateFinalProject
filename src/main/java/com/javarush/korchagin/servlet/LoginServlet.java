@@ -1,5 +1,7 @@
 package com.javarush.korchagin.servlet;
 
+import com.javarush.korchagin.config.SessionCreator;
+import com.javarush.korchagin.dbo.UserRepository;
 import com.javarush.korchagin.service.LoginService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -22,7 +24,7 @@ public class LoginServlet extends HttpServlet {
         HttpSession session = req.getSession();
         String login = req.getParameter("login");
         String password = req.getParameter("password");
-        LoginService loginService = new LoginService();
+        LoginService loginService = new LoginService(new UserRepository(new SessionCreator()));
         if (loginService.login(login, password)) {
             session.setAttribute("login", login);
             resp.sendRedirect("/home");

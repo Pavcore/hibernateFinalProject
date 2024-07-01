@@ -1,8 +1,9 @@
 package com.javarush.korchagin.servlet;
 
+import com.javarush.korchagin.config.SessionCreator;
+import com.javarush.korchagin.dbo.CharacterRepository;
 import com.javarush.korchagin.service.CharacterService;
 import com.javarush.korchagin.service.GameService;
-import jakarta.persistence.Enumerated;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -26,7 +27,7 @@ public class HomeServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         GameService gameData = GameService.getInstance();
         HttpSession session = req.getSession(true);
-        CharacterService characterService = new CharacterService();
+        CharacterService characterService = new CharacterService(new CharacterRepository(new SessionCreator()));
         Enumeration<String> stringEnumerated = req.getParameterNames();
         String actionWithCharacter = stringEnumerated.nextElement();
         if (actionWithCharacter.equals("createCharacter") && characterService.haveCharacterCreated(req, session)) {

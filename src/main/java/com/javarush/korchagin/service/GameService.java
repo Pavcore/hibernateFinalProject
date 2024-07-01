@@ -1,5 +1,6 @@
 package com.javarush.korchagin.service;
 
+import com.javarush.korchagin.config.SessionCreator;
 import com.javarush.korchagin.dbo.CharacterRepository;
 import com.javarush.korchagin.dbo.UserRepository;
 import com.javarush.korchagin.entity.Character;
@@ -33,8 +34,8 @@ public class GameService {
     }
 
     public List<Character> getAllUserCharacters(HttpSession session) {
-        CharacterRepository characterRepository = new CharacterRepository();
-        UserRepository userRepository = new UserRepository();
+        CharacterRepository characterRepository = new CharacterRepository(new SessionCreator());
+        UserRepository userRepository = new UserRepository(new SessionCreator());
         String login = (String) session.getAttribute("login");
         User user = userRepository
                 .find(User.builder()

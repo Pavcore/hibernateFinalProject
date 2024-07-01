@@ -1,5 +1,6 @@
 package com.javarush.korchagin.service;
 
+import com.javarush.korchagin.config.SessionCreator;
 import com.javarush.korchagin.dbo.CharacterRepository;
 import com.javarush.korchagin.dbo.UserRepository;
 import com.javarush.korchagin.dto.CharacterClass;
@@ -7,19 +8,22 @@ import com.javarush.korchagin.entity.Character;
 import com.javarush.korchagin.entity.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import lombok.AllArgsConstructor;
 
 import java.util.List;
 import java.util.stream.Stream;
 
+@AllArgsConstructor
 public class CharacterService {
-    private final CharacterRepository characterRepository = new CharacterRepository();
-    private final UserRepository userRepository = new UserRepository();
+
+    private CharacterRepository characterRepository;
 
     public boolean save(HttpServletRequest req, HttpSession session) {
         String login = (String) session.getAttribute("login");
+        UserRepository userRepository = new UserRepository(new SessionCreator());
         User currentUser = userRepository.find(User.builder()
-                        .login(login)
-                        .build()).findFirst().orElse(null);
+                .login(login)
+                .build()).findFirst().orElse(null);
         String classOfCharacter = req.getParameter("characterClass");
         String nameOfCharacter = req.getParameter("characterName");
         Character character = Character.builder()
@@ -48,9 +52,10 @@ public class CharacterService {
     public boolean haveCharacterCreated(HttpServletRequest req, HttpSession session) {
         Character character = findByName(req.getParameter("createCharacter"));
         String login = session.getAttribute("login").toString();
+        UserRepository userRepository = new UserRepository(new SessionCreator());
         User user = userRepository.find(User.builder()
-                        .login(login)
-                        .build()).findFirst().orElse(null);
+                .login(login)
+                .build()).findFirst().orElse(null);
         List<Character> characterList = characterRepository.getAllCurrentUserCharacters(user != null ? user.getId() : null);
         if (characterList.contains(character)) {
             return true;

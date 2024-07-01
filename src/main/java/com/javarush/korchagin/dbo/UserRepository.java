@@ -2,13 +2,15 @@ package com.javarush.korchagin.dbo;
 
 import com.javarush.korchagin.config.SessionCreator;
 import com.javarush.korchagin.entity.User;
+import lombok.AllArgsConstructor;
 import org.hibernate.query.criteria.JpaRoot;
 
 import java.util.List;
 import java.util.stream.Stream;
 
+@AllArgsConstructor
 public class UserRepository implements Repository<User> {
-    private final SessionCreator sessionCreator = new SessionCreator();
+    private SessionCreator sessionCreator;
 
     @Override
     public void create(User user) {
@@ -41,10 +43,7 @@ public class UserRepository implements Repository<User> {
     @Override
     public List<User> getAll() {
         String sql = "select * from users";
-        sessionCreator.beginTransactional();
-        List<User> getAllUser = sessionCreator.getSession().createNativeQuery(sql, User.class).stream().toList();
-        sessionCreator.endTransactional();
-        return getAllUser;
+        return sessionCreator.getSession().createNativeQuery(sql, User.class).stream().toList();
     }
 
     @Override

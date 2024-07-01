@@ -2,6 +2,7 @@ package com.javarush.korchagin.dbo;
 
 import com.javarush.korchagin.config.SessionCreator;
 import com.javarush.korchagin.entity.Character;
+import lombok.AllArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.query.criteria.JpaRoot;
@@ -9,9 +10,10 @@ import org.hibernate.query.criteria.JpaRoot;
 import java.util.List;
 import java.util.stream.Stream;
 
+@AllArgsConstructor
 public class CharacterRepository implements Repository<Character> {
 
-    private final SessionCreator sessionCreator = new SessionCreator();
+    private SessionCreator sessionCreator;
 
     @Override
     public void create(Character character) {

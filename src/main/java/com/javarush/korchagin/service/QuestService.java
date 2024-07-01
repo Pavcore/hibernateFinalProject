@@ -1,21 +1,17 @@
 package com.javarush.korchagin.service;
 
-import com.javarush.korchagin.config.SessionCreator;
+import com.javarush.korchagin.dbo.QuestRepository;
 import com.javarush.korchagin.entity.Quest;
 import jakarta.servlet.http.HttpSession;
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor
 public class QuestService {
 
-    private final SessionCreator sessionCreator = new SessionCreator();
+    private QuestRepository questRepository;
 
-    public Quest get(long id) {
-        sessionCreator.beginTransactional();
-        Quest quest = sessionCreator.getSession().get(Quest.class, id);
-        sessionCreator.endTransactional();
-        return quest;
-    }
     public void setAttributeQuest(HttpSession session, int level) {
-        Quest quest = get(level);
+        Quest quest = questRepository.get(level);
         session.setAttribute("stage", quest.getMainText());
         session.setAttribute("firstAnswer", quest.getCorrectAnswer());
         session.setAttribute("secondAnswer", quest.getWrongAnswer());
