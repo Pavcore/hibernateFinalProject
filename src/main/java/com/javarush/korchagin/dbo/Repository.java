@@ -3,6 +3,7 @@ package com.javarush.korchagin.dbo;
 import java.util.Collection;
 import java.util.stream.Stream;
 
+@org.springframework.stereotype.Repository
 public interface Repository<T> {
     void create(T t);
 

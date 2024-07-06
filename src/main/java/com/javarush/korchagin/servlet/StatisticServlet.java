@@ -1,5 +1,6 @@
 package com.javarush.korchagin.servlet;
 
+import com.javarush.korchagin.config.SpringApplicationContext;
 import com.javarush.korchagin.service.GameService;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -19,7 +20,7 @@ public class StatisticServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         HttpSession session = req.getSession();
-        GameService gameService = GameService.getInstance();
+        GameService gameService = SpringApplicationContext.getInstance().getBean(GameService.class);
         session.setAttribute("gameQuantity", gameService.gameQuantity());
         session.setAttribute("characterList", gameService.getAllUserCharacters(session));
         resp.sendRedirect("/statistic.jsp");

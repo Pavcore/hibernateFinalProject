@@ -4,7 +4,9 @@ import com.javarush.korchagin.dbo.QuestRepository;
 import com.javarush.korchagin.entity.Quest;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
+@Service
 @AllArgsConstructor
 public class QuestService {
 

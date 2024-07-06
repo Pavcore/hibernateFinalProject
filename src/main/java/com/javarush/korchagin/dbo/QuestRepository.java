@@ -8,6 +8,7 @@ import org.hibernate.query.criteria.JpaRoot;
 import java.util.Collection;
 import java.util.stream.Stream;
 
+@org.springframework.stereotype.Repository
 @AllArgsConstructor
 public class QuestRepository implements Repository<Quest> {
 

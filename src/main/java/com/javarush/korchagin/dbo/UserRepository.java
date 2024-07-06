@@ -8,6 +8,7 @@ import org.hibernate.query.criteria.JpaRoot;
 import java.util.List;
 import java.util.stream.Stream;
 
+@org.springframework.stereotype.Repository
 @AllArgsConstructor
 public class UserRepository implements Repository<User> {
     private SessionCreator sessionCreator;

@@ -1,7 +1,6 @@
 package com.javarush.korchagin.servlet;
 
-import com.javarush.korchagin.config.SessionCreator;
-import com.javarush.korchagin.dbo.CharacterRepository;
+import com.javarush.korchagin.config.SpringApplicationContext;
 import com.javarush.korchagin.service.CharacterService;
 import com.javarush.korchagin.service.GameService;
 import jakarta.servlet.ServletException;
@@ -25,9 +24,9 @@ public class HomeServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        GameService gameData = GameService.getInstance();
+        GameService gameData = SpringApplicationContext.getInstance().getBean(GameService.class);
         HttpSession session = req.getSession(true);
-        CharacterService characterService = new CharacterService(new CharacterRepository(new SessionCreator()));
+        CharacterService characterService = SpringApplicationContext.getInstance().getBean(CharacterService.class);
         Enumeration<String> stringEnumerated = req.getParameterNames();
         String actionWithCharacter = stringEnumerated.nextElement();
         if (actionWithCharacter.equals("createCharacter") && characterService.haveCharacterCreated(req, session)) {

@@ -3,9 +3,11 @@ package com.javarush.korchagin.service;
 import com.javarush.korchagin.dbo.UserRepository;
 import com.javarush.korchagin.entity.User;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 @AllArgsConstructor
 public class LoginService {
     private final UserRepository userRepository;

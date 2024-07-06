@@ -1,7 +1,6 @@
 package com.javarush.korchagin.servlet;
 
-import com.javarush.korchagin.config.SessionCreator;
-import com.javarush.korchagin.dbo.QuestRepository;
+import com.javarush.korchagin.config.SpringApplicationContext;
 import com.javarush.korchagin.service.QuestService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -23,7 +22,7 @@ public class GameServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        QuestService questService = new QuestService(new QuestRepository(new SessionCreator()));
+        QuestService questService = SpringApplicationContext.getInstance().getBean(QuestService.class);
         HttpSession session = req.getSession(true);
         String nextStage = req.getParameter("nextStage");
         if (nextStage != null && nextStage.equals("lose")) {

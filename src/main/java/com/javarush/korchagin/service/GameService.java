@@ -1,29 +1,22 @@
 package com.javarush.korchagin.service;
 
-import com.javarush.korchagin.config.SessionCreator;
+import com.javarush.korchagin.config.SpringApplicationContext;
 import com.javarush.korchagin.dbo.CharacterRepository;
 import com.javarush.korchagin.dbo.UserRepository;
 import com.javarush.korchagin.entity.Character;
 import com.javarush.korchagin.entity.User;
 import jakarta.servlet.http.HttpSession;
+import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
+@Service
+@NoArgsConstructor
 public class GameService {
 
-    private static GameService gameData;
     private final AtomicLong atomicLong = new AtomicLong();
-
-    private GameService() {
-    }
-
-    public static GameService getInstance() {
-        if (gameData == null) {
-            gameData = new GameService();
-        }
-        return gameData;
-    }
 
     public long gameQuantity() {
         return atomicLong.get();
@@ -34,8 +27,8 @@ public class GameService {
     }
 
     public List<Character> getAllUserCharacters(HttpSession session) {
-        CharacterRepository characterRepository = new CharacterRepository(new SessionCreator());
-        UserRepository userRepository = new UserRepository(new SessionCreator());
+        CharacterRepository characterRepository = SpringApplicationContext.getInstance().getBean(CharacterRepository.class);
+        UserRepository userRepository = SpringApplicationContext.getInstance().getBean(UserRepository.class);
         String login = (String) session.getAttribute("login");
         User user = userRepository
                 .find(User.builder()

@@ -10,6 +10,7 @@ import org.hibernate.query.criteria.JpaRoot;
 import java.util.List;
 import java.util.stream.Stream;
 
+@org.springframework.stereotype.Repository
 @AllArgsConstructor
 public class CharacterRepository implements Repository<Character> {
 
@@ -44,7 +45,7 @@ public class CharacterRepository implements Repository<Character> {
         return sessionCreator.getSession().createNativeQuery(sql, Character.class).stream().toList();
     }
 
-    public List<Character> getAllCurrentUserCharacters(Long id){
+    public List<Character> getAllCurrentUserCharacters(Long id) {
         String sql = "select * from character where user_id = :id";
         NativeQuery<Character> query = sessionCreator.getSession().createNativeQuery(sql, Character.class);
         query.setParameter("id", id);

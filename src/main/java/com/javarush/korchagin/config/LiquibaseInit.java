@@ -3,7 +3,9 @@ package com.javarush.korchagin.config;
 import liquibase.Scope;
 import liquibase.command.CommandScope;
 import liquibase.resource.ClassLoaderResourceAccessor;
+import org.springframework.stereotype.Component;
 
+@Component
 public class LiquibaseInit {
     public void start() throws Exception {
         System.out.println("Running Liquibase...");
